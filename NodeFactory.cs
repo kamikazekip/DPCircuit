@@ -1,4 +1,6 @@
 ﻿using Simulatie1.operations;
+using Simulatie1.inputs;
+using Simulatie1.outputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,20 @@ namespace Simulatie1
         public NodeFactory()
         {
             objects = new Dictionary<string, Type>();
+            Input.registerSelf();
+            And.registerSelf();
+            Or.registerSelf();
+            Not.registerSelf();
+            Nand.registerSelf();
+            Nor.registerSelf();
+            Output.registerSelf();
         }
 
-        public Node createNode(string key)
+        public Node createNode(string key, string name)
         {
-            return (Node)Activator.CreateInstance(objects[key]);
+           Node newNode = (Node) Activator.CreateInstance(objects[key]);
+           newNode.setName(name);
+           return newNode;
         }
 
         public static void register(String className, Type c)

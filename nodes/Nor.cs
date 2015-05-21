@@ -8,9 +8,14 @@ namespace Simulatie1.operations
 {
     class Nor : Node
     {
-        public Nor() : base (2)
+        public Nor() : base ()
         {
 
+        }
+
+        public static void registerSelf()
+        {
+            NodeFactory.register("NOR", typeof(Nor));
         }
 
     }

@@ -3,6 +3,7 @@ using Simulatie1.operations;
 using Simulatie1.outputs;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,24 +16,32 @@ namespace Simulatie1
         private Dictionary<string, string> nodes;
         private Dictionary<string, string[]> connections;
         private bool readingNodes;
+
+        private Dictionary<string, Node> createdNodes;
+
         public ReadCircuit()
         {
             readingNodes = true;
             nodes = new Dictionary<string, string>();
             connections = new Dictionary<string, string[]>();
 
-            string[] lines = System.IO.File.ReadAllLines(@"D:\AVANS\Blok_12\DesignPatterns\Simulatie1\Simulatie1\bin\Debug\circuit1.txt");
+            createdNodes = new Dictionary<string, Node>();
+
+            string[] lines = System.IO.File.ReadAllLines(@"C:\Users\Jip\Documents\School\DP1\DPCircuit\bin\Debug\circuit1.txt");
             for (int x = 0; x < lines.Length; x++) {
                 lines[x] = Regex.Replace(lines[x], @"\s+", "");
                 //Lees connections uit
                 if (!readingNodes && !lines[x][0].Equals('#'))
                 {
-                    char[] splitChar = {':'};
+                    char[] splitChar = {':', ';'};
                     string[] node = lines[x].Split(splitChar);
-                    char[] newSplitChar = {',', ';'};
+                    char[] newSplitChar = {','};
                     string[] nodeConnections = node[1].Split(newSplitChar);
+                    for (int y = 0; y < nodeConnections.Length; y++)
+                    {
+                        Console.WriteLine(nodeConnections[y]);
+                    }
                     connections.Add(node[0], nodeConnections);
-                    Console.WriteLine("Name: " + node[0] + " Connections: " + nodeConnections);
                 }
                 //Lees nodes uit
                 else if (!String.IsNullOrEmpty(lines[x]) && !lines[x][0].Equals('#'))
@@ -40,7 +49,6 @@ namespace Simulatie1
                     char[] splitChar = {':',';'};
                     string[] node = lines[x].Split(splitChar);
                     nodes.Add(node[0], node[1]);
-                    Console.WriteLine("Name: " + node[0] + " Type: " + node[1]);
                 }
                 else if (String.IsNullOrEmpty(lines[x]))
                 {
@@ -48,9 +56,30 @@ namespace Simulatie1
                 }
             }
             NodeFactory nodefactory = new NodeFactory();
+            foreach (KeyValuePair<string, string> node in nodes)
+            {
+                createdNodes.Add(node.Key, nodefactory.createNode(node.Value, node.Key));
+            }
 
-            Node n= nodefactory.createNode("PROBE");
-            
+            Console.WriteLine("");
+            linkNodes();
+        }
+
+        private void linkNodes()
+        {
+            foreach (KeyValuePair<string, Node> node in createdNodes)
+            {
+                //If the current node is not an output
+                if(!nodes[node.Key].Equals("PROBE")){
+                    String[] myConnections = connections[node.Key];
+                    for (int y = 0; y < myConnections.Length; y++)
+                    {
+                        //Add connection to the current node
+                        node.Value.addConnection(createdNodes[myConnections[y]]);
+                    }
+                }
+            }
+            //Alle nodes zijn op dit moment gemaakt en aan elkaar gelinkt
         }
     }
 }

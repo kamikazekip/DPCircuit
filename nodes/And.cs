@@ -8,7 +8,7 @@ namespace Simulatie1.operations
 {
     public class And : Node
     {
-        public And() : base (2)
+        public And() : base ()
         {
 
         }

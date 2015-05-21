@@ -8,9 +8,15 @@ namespace Simulatie1.operations
 {
     public class Nand : Node
     {
-        public Nand() : base (2)
+        public Nand() : base()
         {
 
+        }
+
+
+        public static void registerSelf()
+        {
+            NodeFactory.register("NAND", typeof(Nand));
         }
 
     }

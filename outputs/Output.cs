@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simulatie1.operations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +7,16 @@ using System.Threading.Tasks;
 
 namespace Simulatie1.outputs
 {
-    public class Output
+    public class Output : Node
     {
-        private String name;
-
-        public Output(String name)
+        public Output() : base()
         {
-            this.name = name;
+            
         }
 
-        public void write(int number){
-            Console.WriteLine(name + ": " + number );
+        public static void registerSelf()
+        {
+            NodeFactory.register("PROBE", typeof(Output));
         }
     }
 }

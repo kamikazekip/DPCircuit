@@ -8,13 +8,15 @@ namespace Simulatie1.operations
 {
     public class Node
     {
-        public int numberOfInputs;
-        public List<int> numbers;
+        private int numberOfInputs;
+        private List<int> numbers;
+        private List<Node> connections;
+        private String name;
 
-        public Node(int numberOfInputs)
+        public Node()
         {
-            this.numberOfInputs = numberOfInputs;
             this.numbers = new List<int>();
+            this.connections = new List<Node>();
         }
 
         public void giveNumber(int givenNumber)
@@ -27,5 +29,29 @@ namespace Simulatie1.operations
             }
         }
 
+        public void setName(String name)
+        {
+            this.name = name;
+        }
+
+        public String getName()
+        {
+            return this.name;
+        }
+
+        public void setNumberOfInputs(int inputs)
+        {
+            this.numberOfInputs = inputs;
+        }
+
+        public int getNumberOfInputs()
+        {
+            return this.numberOfInputs;
+        }
+
+        public void addConnection(Node node)
+        {
+            this.connections.Add(node);
+        }
     }
 }

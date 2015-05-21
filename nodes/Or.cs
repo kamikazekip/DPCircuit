@@ -8,9 +8,14 @@ namespace Simulatie1.operations
 {
     public class Or : Node
     {
-        public Or(): base(2)
+        public Or(): base()
         {
 
+        }
+
+        public static void registerSelf()
+        {
+            NodeFactory.register("OR", typeof(Or));
         }
     }
 }

@@ -8,10 +8,14 @@ namespace Simulatie1.operations
 {
     public class Not : Node
     {
-        public Not()
-            : base(1)
+        public Not() : base()
         {
 
+        }
+
+        public static void registerSelf()
+        {
+            NodeFactory.register("NOT", typeof(Not));
         }
     }
 }
