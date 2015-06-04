@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Simulatie1.operations
 {
-    public class Nand : Node
+    public class NAnd : Node
     {
-        public Nand() : base()
+        public NAnd() : base(2)
         {
 
         }
@@ -16,8 +16,21 @@ namespace Simulatie1.operations
 
         public static void registerSelf()
         {
-            NodeFactory.register("NAND", typeof(Nand));
+            NodeFactory.register("NAND", typeof(NAnd));
         }
 
+        public override void evaluate()
+        {
+            int inputA = this.getReceivedNumbers()[0];
+            int inputB = this.getReceivedNumbers()[1];
+            if (inputA == 1 && inputB == 1)
+            {
+                this.pass(0);
+            }
+            else
+            {
+                this.pass(1);
+            }
+        }
     }
 }

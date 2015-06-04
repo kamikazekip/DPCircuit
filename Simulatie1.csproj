@@ -44,15 +44,16 @@
     <Compile Include="inputs\Input.cs" />
     <Compile Include="NodeFactory.cs" />
     <Compile Include="nodes\And.cs" />
-    <Compile Include="nodes\Nand.cs" />
+    <Compile Include="nodes\NAnd.cs" />
     <Compile Include="nodes\Node.cs" />
-    <Compile Include="nodes\Nor.cs" />
+    <Compile Include="nodes\NOr.cs" />
     <Compile Include="nodes\Not.cs" />
     <Compile Include="nodes\Or.cs" />
+    <Compile Include="nodes\XOr.cs" />
     <Compile Include="outputs\Output.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadCircuit.cs" />
+    <Compile Include="NodeCircuit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

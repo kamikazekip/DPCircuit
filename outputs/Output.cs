@@ -9,7 +9,7 @@ namespace Simulatie1.outputs
 {
     public class Output : Node
     {
-        public Output() : base()
+        public Output() : base(1)
         {
             
         }
@@ -17,6 +17,17 @@ namespace Simulatie1.outputs
         public static void registerSelf()
         {
             NodeFactory.register("PROBE", typeof(Output));
+        }
+
+        public override void evaluate()
+        {
+            var output = this.getReceivedNumbers()[0];
+            this.pass(output);
+        }
+
+        public override void pass(int output)
+        {
+            Console.WriteLine(this.getName() + " ( Output ) is: " + output);
         }
     }
 }

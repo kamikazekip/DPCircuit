@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Simulatie1.nodes;
 
 namespace Simulatie1
 {
@@ -20,8 +21,9 @@ namespace Simulatie1
             And.registerSelf();
             Or.registerSelf();
             Not.registerSelf();
-            Nand.registerSelf();
-            Nor.registerSelf();
+            NAnd.registerSelf();
+            NOr.registerSelf();
+            XOr.registerSelf();
             Output.registerSelf();
         }
 

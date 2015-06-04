@@ -6,26 +6,31 @@ using System.Threading.Tasks;
 
 namespace Simulatie1.operations
 {
-    public class Node
+    public abstract class Node
     {
         private int numberOfInputs;
-        private List<int> numbers;
+        private List<int> receivedNumbers;
         private List<Node> connections;
         private String name;
 
-        public Node()
+        public Node(int numberOfInputs)
         {
-            this.numbers = new List<int>();
+            this.numberOfInputs = numberOfInputs;
+            this.receivedNumbers = new List<int>();
             this.connections = new List<Node>();
         }
 
-        public void giveNumber(int givenNumber)
+        public void receiveNumber(int receivedNumber)
         {
-            numbers.Add(givenNumber);
+            receivedNumbers.Add(receivedNumber);
 
-            if (numbers.Count == numberOfInputs)
+            if (receivedNumbers.Count == numberOfInputs)
             {
-                //Evaluate
+                this.evaluate();
+            }
+            else if (receivedNumbers.Count > numberOfInputs)
+            {
+                Console.WriteLine(this.getName() + " zit in een oneindige loop. Kan circuit niet afmaken.");
             }
         }
 
@@ -52,6 +57,32 @@ namespace Simulatie1.operations
         public void addConnection(Node node)
         {
             this.connections.Add(node);
+        }
+
+        public List<Node> getConnections()
+        {
+            return this.connections;
+        }
+
+        public List<int> getReceivedNumbers()
+        {
+            return this.receivedNumbers;
+        }
+
+        public void reset()
+        {
+            this.receivedNumbers = new List<int>();
+        }
+        
+        //Meant to be overridden
+        public abstract void evaluate();
+
+        public virtual void pass(int output)
+        {
+            foreach (Node connection in this.connections)
+            {
+                connection.receiveNumber(output);
+            }
         }
     }
 }

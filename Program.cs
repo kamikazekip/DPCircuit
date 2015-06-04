@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Simulatie1
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            ReadCircuit start = new ReadCircuit();
+            NodeCircuit circuit = new NodeCircuit();
+            circuit.startCircuit(@"C:\Users\Jip\Documents\School\DP1\DPCircuit\bin\Debug\circuit1.txt");
             Console.ReadLine();
         }
     }

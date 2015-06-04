@@ -1,33 +1,36 @@
-﻿using System;
+﻿using Simulatie1.operations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simulatie1.operations
+namespace Simulatie1.nodes
 {
-    public class Not : Node
+    public class XOr : Node
     {
-        public Not() : base(1)
+        public XOr()
+            : base(2)
         {
 
         }
 
         public static void registerSelf()
         {
-            NodeFactory.register("NOT", typeof(Not));
+            NodeFactory.register("XOR", typeof(XOr));
         }
 
         public override void evaluate()
         {
             int inputA = this.getReceivedNumbers()[0];
-            if (inputA == 0)
+            int inputB = this.getReceivedNumbers()[1];
+            if (inputA == inputB)
             {
-                this.pass(1);
+                this.pass(0);
             }
             else
             {
-                this.pass(0);
+                this.pass(1);
             }
         }
     }
