@@ -12,6 +12,7 @@ namespace Simulatie1.operations
         private List<int> receivedNumbers;
         private List<Node> connections;
         private String name;
+        private String type;
 
         public Node(int numberOfInputs)
         {
@@ -42,6 +43,16 @@ namespace Simulatie1.operations
         public String getName()
         {
             return this.name;
+        }
+
+        public void setType(String type)
+        {
+            this.type = type;
+        }
+
+        public String getType()
+        {
+            return this.type;
         }
 
         public void setNumberOfInputs(int inputs)

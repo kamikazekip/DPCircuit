@@ -13,7 +13,6 @@ namespace Simulatie1.operations
 
         }
 
-
         public static void registerSelf()
         {
             NodeFactory.register("NAND", typeof(NAnd));

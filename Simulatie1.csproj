@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="inputs\Input.cs" />
-    <Compile Include="NodeFactory.cs" />
+    <Compile Include="factories\NodeFactory.cs" />
     <Compile Include="nodes\And.cs" />
     <Compile Include="nodes\NAnd.cs" />
     <Compile Include="nodes\Node.cs" />
@@ -54,6 +54,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NodeCircuit.cs" />
+    <Compile Include="factories\ReaderFactory.cs" />
+    <Compile Include="readers\JSONFileReader.cs" />
+    <Compile Include="readers\Reader.cs" />
+    <Compile Include="readers\TextFileReader.cs" />
+    <Compile Include="readers\XMLFileReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

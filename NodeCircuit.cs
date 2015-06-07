@@ -8,94 +8,47 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Simulatie1.readers;
 
 namespace Simulatie1
 {
     public class NodeCircuit
     {
-        private Dictionary<string, string> nodes;
+        private List<Node> nodes;
+
+        //private Dictionary<string, string> nodes;
         private Dictionary<string, string[]> connections;
         private bool readingNodes;
 
         private Dictionary<string, Node> createdNodes;
+        private Reader reader;
 
         public NodeCircuit(){
-            readingNodes = true;
-            nodes = new Dictionary<string, string>();
-            connections = new Dictionary<string, string[]>();
-            createdNodes = new Dictionary<string, Node>();
+            
         }
 
-        public void startCircuit(String circuit)
+        public void startCircuit(Reader reader)
         {
-            string[] lines = System.IO.File.ReadAllLines(circuit);
-            for (int x = 0; x < lines.Length; x++) {
-                lines[x] = Regex.Replace(lines[x], @"\s+", "");
-                //Lees connections uit
-                if (!readingNodes && !lines[x][0].Equals('#'))
-                {
-                    char[] splitChar = {':', ';'};
-                    string[] node = lines[x].Split(splitChar);
-                    char[] newSplitChar = {','};
-                    string[] nodeConnections = node[1].Split(newSplitChar);
-                    connections.Add(node[0], nodeConnections);
-                }
-                //Lees nodes uit
-                else if (!String.IsNullOrEmpty(lines[x]) && !lines[x][0].Equals('#'))
-                {
-                    char[] splitChar = {':',';'};
-                    string[] node = lines[x].Split(splitChar);
-                    nodes.Add(node[0], node[1]);
-                }
-                else if (String.IsNullOrEmpty(lines[x]))
-                {
-                    readingNodes = false;
-                }
-            }
-            NodeFactory nodefactory = new NodeFactory();
-            foreach (KeyValuePair<string, string> node in nodes)
+            this.reader = reader;
+            this.nodes = reader.read();
+            if (this.nodes.Count > 0)
             {
-                createdNodes.Add(node.Key, nodefactory.createNode(node.Value, node.Key));
+                this.assignInputs();
             }
-
-            linkNodes();
-        }
-
-        private void linkNodes()
-        {
-            foreach (KeyValuePair<string, Node> node in createdNodes)
-            {
-                //If the current node is not an output
-                if(!nodes[node.Key].Equals("PROBE")){
-                    if (connections.ContainsKey(node.Key))
-                    {
-                        String[] myConnections = connections[node.Key];
-                        for (int y = 0; y < myConnections.Length; y++)
-                        {
-                            //Add connection to the current node
-                            node.Value.addConnection(createdNodes[myConnections[y]]);
-                        }
-                    }
-                    else {
-                        Console.WriteLine("Node: " + node.Key + " heeft geen output.");
-                    }
-                }
-            }
-            assignInputs();
-        }
+        } 
 
         private void assignInputs()
         {
-            foreach (KeyValuePair<string, Node> node in createdNodes)
+            foreach (Node node in this.nodes)
             {
-                if (node.Value is Input)
+                if (node is Input)
                 {
-                    if(nodes[node.Key].Equals("INPUT_HIGH")){
-                        Console.WriteLine(node.Value.getName() + " ( Input ) is: 1");
-                        node.Value.receiveNumber(1);
+                    if(node.getType().Equals("INPUT_HIGH")){
+                        Console.WriteLine(node.getName() + " ( Input ) is: 1");
+                        node.receiveNumber(1);
                     } else {
-                        Console.WriteLine(node.Value.getName() + " ( Input ) is: 0");
-                        node.Value.receiveNumber(0);
+                        Console.WriteLine(node.getName() + " ( Input ) is: 0");
+                        node.receiveNumber(0);
                     }
                 }
             }
@@ -105,17 +58,17 @@ namespace Simulatie1
         private void done()
         {
             Console.WriteLine("");
-            foreach (KeyValuePair<string, Node> node in createdNodes)
+            foreach (Node node in this.nodes)
             {
-                node.Value.reset();
+                node.reset();
             }
             Console.WriteLine("Als u het opnieuw wilt proberen, vult u de cijfers in");
-            foreach (KeyValuePair<string, Node> node in createdNodes)
+            foreach (Node node in this.nodes)
             {
-                if (node.Value is Input)
+                if (node is Input)
                 {
-                    Console.WriteLine("Geef nummer ( 0 of 1 ) op voor " + node.Value.getName() + ":");
-                    node.Value.receiveNumber(getInput());
+                    Console.WriteLine("Geef nummer ( 0 of 1 ) op voor " + node.getName() + ":");
+                    node.receiveNumber(getInput());
                 }
             }
             done();

@@ -27,10 +27,11 @@ namespace Simulatie1
             Output.registerSelf();
         }
 
-        public Node createNode(string key, string name)
+        public Node createNode(string type, string name)
         {
-           Node newNode = (Node) Activator.CreateInstance(objects[key]);
+           Node newNode = (Node) Activator.CreateInstance(objects[type]);
            newNode.setName(name);
+           newNode.setType(type);
            return newNode;
         }
 
