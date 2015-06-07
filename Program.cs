@@ -1,4 +1,5 @@
-﻿using Simulatie1.readers;
+﻿using Simulatie1.operations;
+using Simulatie1.readers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,10 +18,14 @@ namespace Simulatie1
             string executableLocation = Path.GetDirectoryName(
              Assembly.GetExecutingAssembly().Location);
             string circuitLocation = Path.Combine(executableLocation, "circuit1.txt");
-            Console.WriteLine(circuitLocation);
+
+            Console.WriteLine("Reading file: " + circuitLocation);
+            Console.WriteLine("");
+
             Reader reader = readerFactory.createReader(circuitLocation);
-            NodeCircuit circuit = new NodeCircuit();
-            circuit.startCircuit(reader);
+            List<Node> nodes = reader.read();
+            NodeCircuit circuit = new NodeCircuit(nodes);
+            circuit.startCircuit();
             Console.ReadLine();
         }
     }

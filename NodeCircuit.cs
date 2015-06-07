@@ -23,14 +23,13 @@ namespace Simulatie1
         private Dictionary<string, Node> createdNodes;
         private Reader reader;
 
-        public NodeCircuit(){
-            
+        public NodeCircuit(List<Node> nodes)
+        {
+            this.nodes = nodes;
         }
 
-        public void startCircuit(Reader reader)
+        public void startCircuit()
         {
-            this.reader = reader;
-            this.nodes = reader.read();
             if (this.nodes.Count > 0)
             {
                 this.assignInputs();
